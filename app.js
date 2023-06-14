@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-const { limiter } = require('./utils/limiter');
+const limiter = require('./utils/limiter');
 const { handleErrors } = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
@@ -20,7 +20,7 @@ app.use(helmet());
 app.use(requestLogger);
 app.use(cors());
 app.options('/', cors());
-app.use(limiter());
+app.use(limiter);
 app.use(cookieParser());
 app.use(express.json());
 
