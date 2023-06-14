@@ -13,7 +13,7 @@ router.post('/signup', validationSignup, createUser);
 router.post('/signin', validationSignin, login);
 
 router.use('/users', auth, userRouter);
-router.use('/cards', auth, movieRouter);
+router.use('/movies', auth, movieRouter);
 router.use('/*', auth, (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
 });

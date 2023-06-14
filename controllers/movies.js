@@ -4,21 +4,46 @@ const BadRequestError = require('../errors/badRequestError');
 const ForbiddenError = require('../errors/forbiddenError');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .then((movies) => res.send(movies))
     .catch(next);
 };
 
 module.exports.createMovie = (req, res, next) => {
-  const { ...data } = req.body;
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+  } = req.body;
 
-  Movie.create({ ...data })
+  Movie.create({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+    owner: req.user._id,
+  })
     .then((movie) => res.status(201).send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(
           new BadRequestError(
-            'Переданы некорректные данные при создании карточки',
+            'Переданы некорректные данные при создании фильма',
           ),
         );
       }
@@ -30,10 +55,10 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
-        return next(new NotFoundError('Карточка не найдена'));
+        return next(new NotFoundError('Фильм не найден'));
       }
       if (movie.owner.toString() !== req.user._id) {
-        return next(new ForbiddenError('Нельзя удалять чужие карточки'));
+        return next(new ForbiddenError('Нельзя удалять чужие фильмы'));
       }
       return Movie.findByIdAndDelete(req.params._id).then(() => res.send(movie));
     })
