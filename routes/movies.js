@@ -1,8 +1,8 @@
 const movieRouter = require('express').Router();
-// const {
-//   validationCreateCard,
-//   validationCardId,
-// } = require('../utils/validation');
+const {
+  validationCreateMovie,
+  validationMovieId,
+} = require('../utils/validation');
 
 const {
   getMovies,
@@ -11,7 +11,7 @@ const {
 } = require('../controllers/movies');
 
 movieRouter.get('/', getMovies); // возвращает все сохранённые текущим  пользователем фильмы
-movieRouter.post('/', createMovie); // создаёт фильм с переданными в теле country, director, duration, year, description, image, trailer, nameRU, nameEN и thumbnail, movieId // validationCreateCard
-movieRouter.delete('/:_id', deleteMovie); // удаляет сохранённый фильм по id // validationCardId
+movieRouter.post('/', validationCreateMovie, createMovie); // создаёт фильм с переданными в теле country, director, duration, year, description, image, trailer, nameRU, nameEN и thumbnail, movieId // validationCreateCard
+movieRouter.delete('/:_id', validationMovieId, deleteMovie); // удаляет сохранённый фильм по id //
 
 module.exports = movieRouter;
