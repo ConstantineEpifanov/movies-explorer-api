@@ -49,15 +49,16 @@ const validationCreateMovie = celebrate({
   }),
 });
 
-// const validationCardId = celebrate({
-//   params: Joi.object().keys({
-//     cardId: Joi.string().required().length(24).hex(),
-//   }),
-// });
+const validationMovieId = celebrate({
+  params: Joi.object().keys({
+    id: Joi.string().required().length(24).hex(),
+  }),
+});
 
 module.exports = {
   validationSignin,
   validationSignup,
+  validationMovieId,
   validationUpdateProfile,
   validationCreateMovie,
 };
